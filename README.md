@@ -9,6 +9,8 @@
 ## 從這裡開始
 
 - [課程大綱與時數](docs/syllabus.md)
+- [八篇論文與統計背景閱讀導引](docs/paper-reading-guide.md)
+- [論文入口](Papers.md)
 - [DLI 章節對照](docs/dli-mapping.md)
 - [十個統計單元](docs/units/README.md)
 - [三個核心實驗](exercises/README.md)
