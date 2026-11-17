@@ -24,9 +24,13 @@
 
 每次作業須同時繳交方法、結果、解讀及限制。AI 可以協助產生程式，但學生須驗證輸出並解釋統計意義。
 
-## 目前進度
+## 立即開始
 
-本版提供 Markdown 課程規劃、單元教學綱要及實驗規格。尚未提供可執行 Notebook、Colab 入口或完成的 Python 實作；請勿將規劃項目視為已完成。
+已提供 [10 份統計教學 Notebook 與 Colab 入口](notebooks/README.md)，每份包含概念、Python 範例、結果解讀與練習。只需 CPU，使用合成或內建資料。
+
+[查看執行驗證](https://github.com/Samuel-ncu/AI-Stastic/actions/workflows/notebooks.yml)。CI 會在全新 Python 環境執行全部 Notebook；執行完成的版本可從 Actions artifacts 下載。
+
+目前是統計入門教材；完整 DLI 模型對照實驗與三個核心專題的整合實作仍待開發。
 
 ## 專案目錄
 
@@ -35,7 +39,7 @@
 | docs/ | 課綱、章節對照及單元教材綱要 |
 | exercises/ | 學生實驗與作業 |
 | instructor/ | 教學提示與評分規準；目前公開，不放需保密解答 |
-| notebooks/ | 待開發 Notebook 的規格 |
+| notebooks/ | 10 份統計教學 Notebook 與 Colab 入口 |
 | src/ | 待開發共用程式的規格 |
 | data/ | 資料來源及下載規範 |
 
