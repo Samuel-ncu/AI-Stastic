@@ -50,7 +50,13 @@ $x$ 未超過 2 時，追加項為零，斜率是 2。超過 2 時，追加項�
 | 請求可能同時有哪些問題？ | 每個標籤一個 logit，各自轉成機率分數 | 逐標籤計算二元交叉熵 |
 | 下一個 token 是什麼？ | 當前位置對詞彙表的 logits | 交叉熵衡量模型給參考 token 的機率 |
 
-例如實際超時，給超時機率 0.8 的損失是 $-\ln(0.8)\approx0.223$，給 0.6 時約 0.511。兩個模型若用 0.5 當閾值都答對，交叉熵仍提供不同訊號。PyTorch 的 BCEWithLogitsLoss 與 CrossEntropyLoss 都直接接 logits。到部署時，閾值仍可依應用的漏報和誤報成本另行選定。[第 02 課：分數與機率](units/02-probability-classification.md) · [第 05 課：輸出與損失選擇](units/05-statistical-models-loss.md) · [PyTorch 二元交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html) · [PyTorch 多類別交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.CrossEntropyLoss.html)
+### Sigmoid、BCE 與多類別交叉熵怎麼接起來？
+
+**Sigmoid 把 logit 轉成機率，交叉熵再依真實答案算損失。** 在二元問題，Sigmoid 提供 $(p,1-p)$。把真實分布 $(y,1-y)$ 與這組預測機率代入交叉熵通式 $-\sum_k q_k\ln p_k$，就是 BCE。若有多個互斥的答案，通常用 Softmax 提供一個多類別分布。若標籤可同時成立，每個標籤可各自使用 Sigmoid 並各算一項 BCE。
+
+舉例來說，兩筆請求的真實答案分到 0.8 和 0.2 的機率。在給定輸入後條件獨立的假設下，概似是 $0.8\times0.2$。取負對數後，$-\ln(0.8\times0.2)=-\ln(0.8)-\ln(0.2)$，模型便能用逐筆相加的損失來最大化概似。BCE 和多類別交叉熵都用這個原理。若真實答案只分到 1% 機率，該筆損失約為 4.605。
+
+PyTorch 的 BCEWithLogitsLoss 與 CrossEntropyLoss 都直接接 logits。推論需要解讀機率時，再依任務使用 Sigmoid 或 Softmax。二元警報的閾值可依漏報和誤報成本另行選定。[第 02 課：分數與機率](units/02-probability-classification.md) · [第 05 課：通式、BCE 與取對數的推導](units/05-statistical-models-loss.md) · [PyTorch 二元交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html) · [PyTorch 多類別交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.CrossEntropyLoss.html)
 
 ## 5. 反向傳播把最後的損失傳回各層
 
