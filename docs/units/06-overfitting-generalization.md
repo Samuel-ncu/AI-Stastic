@@ -67,21 +67,38 @@ DLI 的 ASL CNN 使用 ReLU，原始 Transformer 的前饋層也使用 ReLU。�
 
 ### 補充｜Sigmoid、反向傳播與梯度消失
 
-第 05 課只跨一段預測公式。深層網路中，反向傳播要把多層的局部導數依鏈鎖律相乘。先把每層簡化成一個數字。在實際網路中，特徵向量的梯度傳遞還涉及權重矩陣與各層導數。
+先把後面會用到的三個量放回預測流程。分類輸出層先把特徵加權，得到實數分數 $z$，稱為 **logit**。Sigmoid 把它換成超時機率 $p$。實際是否超時由標籤 $y$ 表示，BCE 用 $p$ 和 $y$ 算出損失 $L$。例如 $z=0$ 對應 $p=0.5$，$z=-8$ 則令 $p$ 幾乎為 0。[第 05 課：Logit、勝算與機率](05-statistical-models-loss.md#logit-是什麼)
+
+在這裡，梯度回答的是「把分數 $z$ 往上調一點，損失 $L$ 會變多少」。如果要接著知道前面某個權重應該怎麼調，就沿著計算路徑往回追。深層網路中，反向傳播要把多層的局部導數依鏈鎖律相乘。先把每層簡化成一個數字。在實際網路中，特徵向量的梯度傳遞還涉及權重矩陣與各層導數。
 
 $$\frac{\partial L}{\partial h_0}
 =\frac{\partial L}{\partial h_m}
 \frac{\partial h_m}{\partial h_{m-1}}\cdots\frac{\partial h_1}{\partial h_0}.$$
 
+式中 $h_0$ 是要往回追蹤的早期表示，$h_m$ 是所考察路徑的末端。若取 $h_m=z$，最左邊的因子 $\partial L/\partial h_m$ 就是下面要算的 $\partial L/\partial z$。
+
 **梯度消失**是這些乘積讓較早層收到的梯度很小，最佳化器能用來更新那些層的訊號變弱。若每段局部導數都是 0.25，經過六段只剩 $0.25^6=1/4096\approx0.000244$ 倍。這個數值描述簡化例的衰減，實際網路還取決於權重、深度、初始化與資料。
 
 #### 為什麼特別討論 Sigmoid？
 
-Sigmoid 把 $z$ 壓到 0 和 1 之間。令 $p=\sigma(z)$，其導數為 $p(1-p)$。在 $z=0$ 時斜率最大，為 0.25。當 $z$ 很正或很負，輸出接近 1 或 0，曲線在兩端變平，這稱為飽和。例如 $z=-8$ 時，導數約 0.000335。若許多隱藏層串接這種小斜率，早期層就可能難以學習。tanh 同樣有兩端飽和。ReLU 的正側斜率是 1，有助於保留該路徑的梯度，但負側是 0。Leaky ReLU 為負側留小斜率，GELU 則用平滑曲線。這些選擇各有梯度行為，結果仍須用相同訓練條件比較。[Glorot 與 Bengio 的研究](https://proceedings.mlr.press/v9/glorot10a.html) · [GELU 原論文](https://arxiv.org/abs/1606.08415)
+看隱藏層時，這裡也用 $z$ 表示進入啟動函數前的數值。Sigmoid 把它壓到 0 和 1 之間。令 $p=\sigma(z)$，其導數為 $p(1-p)$。在 $z=0$ 時斜率最大，為 0.25。當 $z$ 很正或很負，輸出接近 1 或 0，曲線在兩端變平，這稱為飽和。例如 $z=-8$ 時，導數約 0.000335。若許多隱藏層串接這種小斜率，早期層就可能難以學習。tanh 同樣有兩端飽和。ReLU 的正側斜率是 1，有助於保留該路徑的梯度，但負側是 0。Leaky ReLU 為負側留小斜率，GELU 則用平滑曲線。這些選擇各有梯度行為，結果仍須用相同訓練條件比較。[Glorot 與 Bengio 的研究](https://proceedings.mlr.press/v9/glorot10a.html) · [GELU 原論文](https://arxiv.org/abs/1606.08415)
 
 #### 二元分類最後一層為什麼仍用 Sigmoid？
 
-因為輸出要代表二元結果的機率，訓練訊號還要看**和哪個損失一起微分**。對硬標籤 $y\in\{0,1\}$，未加權的單筆 BCE 搭配 Sigmoid 對 logit 的導數可化簡為 $p-y$。若真實標籤為 1、$z=-8$，$p\approx0.000335$，梯度接近 −1。這個錯得很有把握的預測，仍會收到明確修正訊號。若同樣用 Sigmoid 機率搭配平方損失，導數為 $2(p-y)p(1-p)$，在這個例子中約 −0.000670。兩者是針對**輸出 logit 的局部梯度**，模型較早的層仍有各自的梯度路徑。實務上把 logits 直接傳給 PyTorch BCEWithLogitsLoss 可得到數值較穩定的計算。[PyTorch BCEWithLogitsLoss](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html)
+繼續用 $z=-8$。模型給超時的機率是 $p=\sigma(-8)\approx0.000335$，也就是 **0.0335%**。這筆請求實際超時，所以 $y=1$。BCE 取 $-\ln p$，約為 8.000。機率本身對 $z$ 的斜率雖然小，BCE 在 $p$ 接近 0 時對 $p$ 的斜率卻很大。
+
+用鏈鎖律可以把兩段放在同一式。對硬標籤 $y\in\{0,1\}$、未加權的單筆 BCE：
+
+$$
+\frac{dL}{dz}
+=\frac{dL}{dp}\frac{dp}{dz}
+=\left(-\frac{y}{p}+\frac{1-y}{1-p}\right)p(1-p)
+=p-y.
+$$
+
+當 $y=1$，上式就是 $(-1/p)\times p(1-p)=-(1-p)$。代入本例約為 **−0.9997**。負號代表把 $z$ 往上調一點會讓損失下降，因為模型會提高實際答案「超時」的機率。
+
+若保留同一筆資料和同一個 Sigmoid，改用平方損失 $(p-y)^2$，前半段的斜率改為 $2(p-y)$，因此對 $z$ 的梯度是 $2(p-y)p(1-p)\approx-0.000670$。兩個訓練訊號的差別來自損失怎麼跟機率一起微分。這兩個數字都在**分類輸出這一層**，梯度要繼續傳到較早的層，會再經過那些層的局部導數。實務上把 logits 直接傳給 PyTorch BCEWithLogitsLoss，可得到數值較穩定的計算。[PyTorch BCEWithLogitsLoss](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html)
 
 **自我檢核。** 早期層梯度很小，增加學習率能否只修好早期層？全域學習率會同時影響不同層。先檢查每層梯度、初始化及模型結構，再決定如何調整。第 10 課會用 $h+F(h)$ 說明殘差連接如何改變相乘的因子。[第 10 課：殘差旁路與梯度](10-text-statistics.md)
 
