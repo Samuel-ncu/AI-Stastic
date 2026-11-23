@@ -8,6 +8,7 @@
 
 ## 從這裡開始
 
+- [背景導讀：從統計到 AI 的模型設計](docs/statistics-to-ai.md)
 - [課程大綱與時數](docs/syllabus.md)
 - [八篇論文與統計背景閱讀導引](docs/paper-reading-guide.md)
 - [論文入口](Papers.md)

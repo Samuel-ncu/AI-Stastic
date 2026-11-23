@@ -1,5 +1,7 @@
 # 統計單元索引
 
+先讀 [從統計到 AI 的模型設計](../statistics-to-ai.md)，再到各課查看推導及 Notebook。
+
 01–07 為必修；08–09 為進階；10 為延伸。各文件目前為教學綱要與實驗設計。
 
 - [資料與描述統計](01-data-descriptive-statistics.md)

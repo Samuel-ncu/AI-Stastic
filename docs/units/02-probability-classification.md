@@ -2,6 +2,8 @@
 
 [在 Colab 執行](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/02_probability_classification.ipynb) · [GitHub Notebook](../../notebooks/02_probability_classification.ipynb)
 
+[背景導讀：從統計到 AI 的模型設計](../statistics-to-ai.md)
+
 ## 學習目標與先備知識
 
 先複習比例與百分比。學完能區分「有缺陷時驗出陽性」與「驗出陽性時有缺陷」，並理解分類分數為何需要驗證。
@@ -55,6 +57,14 @@ $k$ 是類別，分母加總所有類別，因此輸出加總為 1。下方程�
 **來源摘要 [S7](https://scikit-learn.org/stable/modules/calibration.html)：**校準關心預測機率與實際發生比例是否一致。例如正類機率約為 0.8 的一群樣本，若模型校準良好，其中約 80% 應為正類。
 
 這是「一群樣本」的可靠性，不是替單張影像提供保證。DLI 手語模型即使最高分 0.99，也可能遇到不在訓練分布的手勢。Accuracy 高與機率校準良好，也不是同一件事。
+
+### 補充｜機率如何連到訓練損失？
+
+先分清楚模型分數與答案的形式。若答案是「是否超時」，一個 logit 經 sigmoid 可以表示超時的預測機率 $p$，另一個結果的機率是 $1-p$。若答案只能在三種狀態中選一種，三個 logits 經 softmax 形成總和為 1 的分布。若「超時」與「辨識錯誤」可以同時發生，每個標籤可各用一個 sigmoid，兩個機率分數不必加總為 1。
+
+現在假設某筆請求確實超時。模型 A 給超時機率 0.8，模型 B 給 0.6，兩個模型用 0.5 當閾值時都答對。交叉熵仍能區分兩者，因為它計算實際答案對應的 $-\ln p$，兩者約為 0.223 和 0.511。這是單筆損失的差異。要判斷輸出是否校準，還需在一批獨立評估資料上看預測機率和實際比例是否吻合。
+
+[下一步：用同一個延遲資料例子選擇迴歸或分類的輸出與損失](05-statistical-models-loss.md) · [來源：PyTorch 交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.CrossEntropyLoss.html) · [機率校準](https://scikit-learn.org/stable/modules/calibration.html)
 
 ## 5. 程式前先做預測
 
