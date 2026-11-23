@@ -19,7 +19,33 @@
 | ai helps students | 1 | 1 | 0 | 1 |
 | students learn ai | 1 | 0 | 1 | 1 |
 
-每列是一個文件向量。若對所有文字先建立詞彙表再切分，測試資料資訊可能進入前處理；正式分類要在訓練文字 fit，再對其他集合 transform。本課的小表只演示表示法，沒有做測試效能評估。
+每列是一個文件向量，每欄固定對應一個詞。欄位順序由訓練資料建立的詞彙表決定。
+
+### 如何用 fit 與 transform 處理新句子？
+
+| 操作 | 在這個例子裡做什麼 |
+|---|---|
+| `fit` | 掃描上面兩句訓練文字，建立詞彙表及欄位對應 `[ai, helps, learn, students]` |
+| `transform` | 沿用這四欄，計算輸入文字中每個已知詞出現幾次 |
+| `fit_transform` | 在同一批文字上建立詞彙表，並回傳這批文字的計數矩陣 |
+
+把新句子 `students use ai ai` 用 `transform` 轉成向量，得到 `[2, 0, 0, 1]`。`ai` 出現兩次，`students` 出現一次。`use` 未出現在訓練詞彙表，因此在這四欄沒有計數。若改用一個新的向量化器，單獨對這句執行 `fit_transform`，就會得到 `[ai, students, use]` 三欄及計數 `[2, 1, 1]`。兩組向量的第二欄分別是 `helps` 和 `students`，已訓練的分類器只能沿用原本的欄位定義。
+
+正式評估時，先切分資料，再只用訓練集 `fit`。若先把訓練集與測試集合起來建立詞彙表，`use` 也會影響欄位設計，讓測試資料參與了前處理的擬合。驗證集、測試集和上線的新資料都沿用同一個已擬合的向量化器。
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+
+train_texts = ["ai helps students", "students learn ai"]
+vectorizer = CountVectorizer()
+X_train = vectorizer.fit_transform(train_texts)
+X_new = vectorizer.transform(["students use ai ai"])
+
+print(vectorizer.get_feature_names_out().tolist())  # ['ai', 'helps', 'learn', 'students']
+print(X_new.toarray().tolist())  # [[2, 0, 0, 1]]
+```
+
+第 04 課的標準化遵循同一個流程。詞袋的 `fit` 建立欄位與詞的對應，標準化的 `fit` 則估計訓練集的平均與標準差。[第 04 課：讀懂 fit 與 transform](04-scaling-normalization.md#4-讀懂-fit-與-transform) · [scikit-learn：CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html) · [scikit-learn：資料洩漏](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage)
 
 中文不一定有空白分詞。切詞、字元 n-gram 或模型 tokenizer 是不同選擇，會影響後續頻率及向量，不能直接假設英文示範可原封不動套用。
 
@@ -59,7 +85,7 @@ $$\cos(u,v)=\frac{u\cdot v}{\|u\|\|v\|}$$
 
 ## 5. 如何連到 DLI NLP？
 
-先把「token、詞彙表、序列、向量」分清楚，再看 embedding 與序列模型。詞袋可當輕量基準，但「狗追貓」與「貓追狗」若只看相同詞的次數，可能得到相同表示；語意角色已被省略。
+詞袋可以當作輕量基準。假設分詞後的結果是「狗／追／貓」和「貓／追／狗」，兩句在詞袋裡的計數相同，每句各得到一個文件向量。Transformer 先用斷詞器（tokenizer）把文字變成有順序的 token ID，再把每個 ID 查表換成嵌入向量（embedding）。上例各有三個 token，因此每句都有三列向量，分別對應第一、第二、第三個位置。模型加入位置資訊後，自注意力便能在更新每一列時整合其他可見位置的內容。[Transformer 原論文 §3.4、§3.5](https://arxiv.org/html/1706.03762v7#S3.SS4)
 
 ### 輸出熵與交叉熵
 
@@ -86,9 +112,9 @@ $$q_i=h_iW_Q,\qquad k_i=h_iW_K,\qquad v_i=h_iW_V.$$
 | 鍵（Key，K） | 提供特徵，供各位置的 Q 比對 |
 | 值（Value，V） | 提供依注意力權重整合的內容 |
 
-每層、每個注意力頭（attention head）都有自己的投影權重。以 GPT 類模型為例，訓練時，下一個 token 的交叉熵經反向傳播（backpropagation）產生這些權重的梯度，再由最佳化器更新 $W_Q,W_K,W_V$。推論時，權重固定，Q、K、V 由當前輸入向量算出。[第 05 課：反向傳播手算](05-statistical-models-loss.md#補充模型怎麼從損失知道每個權重該往哪裡改) · [Transformer 原論文 §3.2](https://arxiv.org/html/1706.03762v7#S3.SS2)
+每層、每個注意力頭（attention head）都有自己的投影權重。以 GPT 類模型為例，訓練時，下一個 token 的交叉熵經反向傳播（backpropagation）產生這些權重的梯度，再由最佳化器更新 $W_Q,W_K,W_V$。推論時，權重固定，Q、K、V 由當前輸入向量算出。對照第 1 節，詞袋的 `fit` 從詞的出現情形建立欄位。Transformer 的投影權重則是為了降低預測損失，在訓練中反覆更新。[第 05 課：反向傳播手算](05-statistical-models-loss.md#補充模型怎麼從損失知道每個權重該往哪裡改) · [Transformer 原論文 §3.2](https://arxiv.org/html/1706.03762v7#S3.SS2)
 
-### 注意力熵衡量模型把權重放在哪些位置
+### 從 Q、K、V 算出注意力權重與熵
 
 固定一個注意力頭與一個查詢位置 $i$。將 $q_i$ 與各位置的 $k_j$ 做點積，除以 $\sqrt{d_k}$，其中 $d_k$ 是 Q、K 的向量維度。接著對可注意的位置做 softmax，取得總和為 1 的注意力權重 $a_{ij}$。GPT 類模型的因果遮罩（causal mask）允許使用當前與更早的位置。注意力輸出 $o_i$ 與注意力熵 $H_i$ 分別為
 
@@ -96,7 +122,13 @@ $$a_{ij}=\operatorname{softmax}_{j}\!\left(\frac{q_i\cdot k_j}{\sqrt{d_k}}\right
 o_i=\sum_j a_{ij}v_j,\qquad
 H_i=-\sum_j a_{ij}\log_2 a_{ij}.$$
 
-**自編對照。** 如果只有兩個可注意的位置，權重 90%／10% 的注意力熵約為 0.47 bit，輸出為 $0.9v_1+0.1v_2$。若兩個位置的匹配分數相同，權重為 50%／50%、熵為 1 bit、輸出為 $0.5v_1+0.5v_2$。固定這一層的 Q、K 與遮罩，只把 $v_1$ 換成另一個向量，會改變加權輸出，注意力熵維持相同。
+**自編手算。** 設兩個位置的輸入向量是 $h_1=[2,0]$、$h_2=[0,1]$。為方便計算，每個投影只輸出一個數。使用欄向量 $W_Q=[0,1]^\top$、$W_K=[1,0]^\top$、$W_V=[5,2]^\top$，可以逐步算出第二個位置的注意力：
+
+1. **算 Q、K、V。** 第二個位置的查詢是 $q_2=1$，兩個位置的鍵是 $(k_1,k_2)=(2,0)$，值是 $(v_1,v_2)=(10,2)$。
+2. **比對分數並做 softmax。** $d_k=1$，所以分數為 $(1\times 2,1\times 0)=(2,0)$。將 $e^2$ 和 $e^0$ 分別除以 $e^2+e^0$，得到權重約 $(0.881,0.119)$。
+3. **加權 V，再量化權重有多集中。** 注意力輸出約為 $0.881\times10+0.119\times2=9.05$。把兩個權重代入熵公式，得到約 $0.53$ bit。
+
+**自我檢核。** 若把兩個比對分數都改成 0，權重為 $(0.5,0.5)$，熵升到 1 bit，輸出變成 6。若保留原本的 Q、K 與遮罩，只把 $v_1$ 從 10 改成 6，熵維持約 0.53 bit，輸出則變成約 5.52。
 
 例如「小明把書放在桌上，因為他要出門」，某個注意力頭如果學到代名詞指涉，「他」的 Q 和「小明」的 K 可能得到較高的匹配分數，讓「小明」的 V 在「他」的注意力輸出中占較大比重。**輸出熵是對候選 token 算，注意力熵則是對這一層、這一頭、這個查詢位置的注意力權重算。** [Transformer 原論文 §3.2、§3.4](https://arxiv.org/html/1706.03762v7#S3.SS2) · [SciPy 熵函數](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.entropy.html)
 
