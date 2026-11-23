@@ -110,6 +110,20 @@ PyTorch 的 BCEWithLogitsLoss 已包含 sigmoid 的對應計算，CrossEntropyLo
 
 下方使用 scikit-learn 的 8×8 digits 建立輕量基準，**不是 MNIST**。連到 DLI 時，請比較輸入形狀、輸出類別數與損失函數，避免把本例的分數當作 DLI 模型結果。
 
+### 補充｜模型怎麼從損失知道每個權重該往哪裡改？
+
+想像用 $\hat y=b+wx$ 預測延遲。若 $x=2$、$w=3$、$b=1$，模型預測 7 ms，實測 9 ms。殘差 $r=y-\hat y=2$ ms，單筆平方損失 $L=r^2=4$ ms²。
+
+前向運算從 $x$ 算到 $\hat y$，再從 $\hat y$ 和答案算出 $L$。反向傳播（backpropagation）沿這條計算路徑反向套用鏈鎖律，算出損失對各參數的偏導數。此例中，$w$ 每變動一點，預測的變動率為 $x=2$。損失對預測的變動率為 $-2r=-4$。相乘得到：
+
+$$\frac{\partial L}{\partial w}
+=\frac{\partial L}{\partial \hat y}\frac{\partial\hat y}{\partial w}
+=(-4)(2)=-8.$$
+
+負梯度表示在目前這個點，小幅增加 $w$ 會使損失下降。若暫時固定 $b$，用梯度下降與學習率 0.1，權重更新為 $3-0.1(-8)=3.8$。新預測為 8.6 ms，單筆損失為約 0.16 ms²。**反向傳播負責算斜率，最佳化器根據斜率及其更新規則調整參數。** 在 PyTorch 中，常見的兩步是先呼叫 loss.backward()，再呼叫 optimizer.step()。
+
+多層模型也遵循同一個原理。每向前回到一層，就再乘上該層的局部導數。下一課會說明多次相乘時，梯度為什麼可能變得很小。[第 06 課：Sigmoid 與梯度消失](06-overfitting-generalization.md) · [PyTorch 自動微分教學](https://docs.pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html)
+
 ## 自我檢核
 
 1. y=0，正類機率 p=0.9 時，應代入 −ln(0.9) 還是 −ln(0.1)？

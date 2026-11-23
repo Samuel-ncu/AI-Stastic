@@ -52,7 +52,15 @@ $x$ 未超過 2 時，追加項為零，斜率是 2。超過 2 時，追加項�
 
 例如實際超時，給超時機率 0.8 的損失是 $-\ln(0.8)\approx0.223$，給 0.6 時約 0.511。兩個模型若用 0.5 當閾值都答對，交叉熵仍提供不同訊號。PyTorch 的 BCEWithLogitsLoss 與 CrossEntropyLoss 都直接接 logits。到部署時，閾值仍可依應用的漏報和誤報成本另行選定。[第 02 課：分數與機率](units/02-probability-classification.md) · [第 05 課：輸出與損失選擇](units/05-statistical-models-loss.md) · [PyTorch 二元交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html) · [PyTorch 多類別交叉熵](https://docs.pytorch.org/docs/2.15/generated/torch.nn.CrossEntropyLoss.html)
 
-## 5. 尺度問題也會出現在網路中間
+## 5. 反向傳播把最後的損失傳回各層
+
+模型先預測，再算損失。反向傳播用鏈鎖律回頭算「每個參數改一點，損失會變多少」。以第 2 節的迴歸為例，單筆平方損失 $L=(y-\hat y)^2$ 對 $\hat y$ 的導數是 $-2r$，$\hat y=b+wx$ 對 $w$ 的導數是 $x$。相乘得到權重梯度 $-2rx$，最佳化器再據此調整權重。
+
+深層網路須乘更多局部導數。Sigmoid 的導數至多為 0.25，兩端飽和時更小。假設六段的局部導數都為 0.25，梯度縮成 $0.25^6\approx0.000244$ 倍。隱藏層收到的梯度越小，參數越難獲得有效的更新訊號。這是選擇隱藏層啟動函數與設計殘差旁路時要考慮的問題。
+
+在二元分類的**輸出端**，Sigmoid 提供機率。與未加權的二元交叉熵合用時，對 logit 的導數是 $p-y$，所以預測 0.000335 而答案為 1 時，梯度約 −0.9997。這說明輸出梯度必須把啟動函數和損失一起考慮。多層隱藏路徑的梯度仍要另行檢查。[第 05 課：反向傳播手算](units/05-statistical-models-loss.md) · [第 06 課：Sigmoid 與梯度實驗](units/06-overfitting-generalization.md) · [Glorot 與 Bengio 的研究](https://proceedings.mlr.press/v9/glorot10a.html) · [PyTorch BCEWithLogitsLoss](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html)
+
+## 6. 尺度問題也會出現在網路中間
 
 第一節處理的是「資料要用哪把尺」。在網路中，前一層的輸出會成為下一層的輸入，而這些值會跟著權重更新而改變。將正規化放進模型，可以調整中間表示的尺度。效果取決於哪一組值用來估計統計量，以及該估計何時更新。
 
@@ -65,11 +73,11 @@ $x$ 未超過 2 時，追加項為零，斜率是 2。超過 2 時，追加項�
 
 以本教材的 $[2,4]$ 為例，平均為 3，除以 $n$ 的變異數為 1，均方值為 10，RMS 是 $\sqrt{10}$。差異來自 $E[X^2]=\mathrm{Var}(X)+(E[X])^2$。這裡的 $E$ 可讀作對這兩個值等權平均。變異數量的是離中心的平方大小，均方量的是離零的平方大小。算例說明 PN 為什麼需要二次動差的背景，完整更新規則見原論文。[第 04 課：資料標準化和模型內正規化](units/04-scaling-normalization.md) · [PyTorch BatchNorm2d](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BatchNorm2d.html) · [PyTorch LayerNorm](https://docs.pytorch.org/docs/2.15/generated/torch.nn.LayerNorm.html) · [PowerNorm 論文](https://proceedings.mlr.press/v119/shen20e.html)
 
-## 6. Transformer 把表示寫成「基準加更新」
+## 7. Transformer 把表示寫成「基準加更新」
 
 回到第二節。實測延遲可寫成「預測延遲＋殘差」$y=\hat y+(y-\hat y)$。這是對實測值的拆解。類似的代數做法可用在模型設計上。把想學的映射寫成 $H(h)=h+F(h)$，分支便用來表示相對於原輸入 $h$ 的更新。
 
-Transformer 的 $h$ 是 token 的向量，$F(h)$ 是注意力或前饋子層產生的向量。若 $h=[2,1,-1]$，子層給出 $[0.3,-0.2,0.1]$，相加後為 $[2.3,0.8,-0.9]$。迴歸的殘差需有實測延遲才能計算，Transformer 的更新在前向運算就能算出。相加本身提供直接的梯度路徑，實際梯度還取決於子層、正規化與其所在的位置。
+Transformer 的 $h$ 是 token 的向量，$F(h)$ 是注意力或前饋子層產生的向量。若 $h=[2,1,-1]$，子層給出 $[0.3,-0.2,0.1]$，相加後為 $[2.3,0.8,-0.9]$。迴歸的殘差需有實測延遲才能計算，Transformer 的更新在前向運算就能算出。相加本身提供直接的梯度路徑，以純量為例，普通層回傳時要乘 $F'(h)$，殘差相加在該處則乘 $1+F'(h)$。多出來的 1 是直接路徑。若 $F'(h)=0.01$，兩者為 0.01 和 1.01。實際梯度還取決於子層、正規化與其所在的位置。
 
 原始 Transformer 在前饋層使用 ReLU，將子層輸出加回後才做 LayerNorm，也就是 Post-LN。Pre-LN 把 LayerNorm 移到子層入口。輸出的 token 交叉熵是另一個步驟，用於比較模型預測與資料標籤。學生可依序在架構圖圈出「前饋非線性 → 加回表示 → 正規化 → 最後的預測損失」。這個順序描述原論文的前饋子層和輸出端。[第 10 課：殘差連接手算](units/10-text-statistics.md) · [ResNet 原論文](https://arxiv.org/abs/1512.03385) · [Transformer 原論文 §3](https://arxiv.org/html/1706.03762v7#S3) · [Pre-LN 與 Post-LN 的研究](https://proceedings.mlr.press/v119/xiong20b.html)
 

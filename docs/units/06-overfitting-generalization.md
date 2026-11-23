@@ -57,6 +57,26 @@ $$\hat y=5+2x+3\,\mathrm{ReLU}(x-2).$$
 
 DLI 的 ASL CNN 使用 ReLU，原始 Transformer 的前饋層也使用 ReLU。閱讀其他架構時請查其實作。[來源：DLI ASL CNN](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/03_asl_cnn.ipynb) · [Transformer 原論文 §3.3](https://arxiv.org/html/1706.03762v7#S3.SS3)
 
+### 補充｜Sigmoid、反向傳播與梯度消失
+
+第 05 課只跨一段預測公式。深層網路中，反向傳播要把多層的局部導數依鏈鎖律相乘。先把每層簡化成一個數字。在實際網路中，特徵向量的梯度傳遞還涉及權重矩陣與各層導數。
+
+$$\frac{\partial L}{\partial h_0}
+=\frac{\partial L}{\partial h_m}
+\frac{\partial h_m}{\partial h_{m-1}}\cdots\frac{\partial h_1}{\partial h_0}.$$
+
+**梯度消失**是這些乘積讓較早層收到的梯度很小，最佳化器能用來更新那些層的訊號變弱。若每段局部導數都是 0.25，經過六段只剩 $0.25^6=1/4096\approx0.000244$ 倍。這個數值描述簡化例的衰減，實際網路還取決於權重、深度、初始化與資料。
+
+#### 為什麼特別討論 Sigmoid？
+
+Sigmoid 把 $z$ 壓到 0 和 1 之間。令 $p=\sigma(z)$，其導數為 $p(1-p)$。在 $z=0$ 時斜率最大，為 0.25。當 $z$ 很正或很負，輸出接近 1 或 0，曲線在兩端變平，這稱為飽和。例如 $z=-8$ 時，導數約 0.000335。若許多隱藏層串接這種小斜率，早期層就可能難以學習。tanh 同樣有兩端飽和。ReLU 的正側斜率是 1，有助於保留該路徑的梯度，但負側是 0。Leaky ReLU 為負側留小斜率，GELU 則用平滑曲線。這些選擇各有梯度行為，結果仍須用相同訓練條件比較。[Glorot 與 Bengio 的研究](https://proceedings.mlr.press/v9/glorot10a.html) · [GELU 原論文](https://arxiv.org/abs/1606.08415)
+
+#### 二元分類最後一層為什麼仍用 Sigmoid？
+
+因為輸出要代表二元結果的機率，訓練訊號還要看**和哪個損失一起微分**。對硬標籤 $y\in\{0,1\}$，未加權的單筆 BCE 搭配 Sigmoid 對 logit 的導數可化簡為 $p-y$。若真實標籤為 1、$z=-8$，$p\approx0.000335$，梯度接近 −1。這個錯得很有把握的預測，仍會收到明確修正訊號。若同樣用 Sigmoid 機率搭配平方損失，導數為 $2(p-y)p(1-p)$，在這個例子中約 −0.000670。兩者是針對**輸出 logit 的局部梯度**，模型較早的層仍有各自的梯度路徑。實務上把 logits 直接傳給 PyTorch BCEWithLogitsLoss 可得到數值較穩定的計算。[PyTorch BCEWithLogitsLoss](https://docs.pytorch.org/docs/2.15/generated/torch.nn.BCEWithLogitsLoss.html)
+
+**自我檢核。** 早期層梯度很小，增加學習率能否只修好早期層？全域學習率會同時影響不同層。先檢查每層梯度、初始化及模型結構，再決定如何調整。第 10 課會用 $h+F(h)$ 說明殘差連接如何改變相乘的因子。[第 10 課：殘差旁路與梯度](10-text-statistics.md)
+
 ## 3. 手算理解「差距」
 
 本教材自編三個模型：

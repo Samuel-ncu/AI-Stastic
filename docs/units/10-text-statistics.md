@@ -88,6 +88,16 @@ $$h_{\rm sum}=h+F(h)$$
 
 可回到 [第 06 課比較啟動函數](06-overfitting-generalization.md)，再從模型規格確認前饋層的啟動函數與正規化位置。
 
+### 補充｜殘差旁路如何改變反向傳播？
+
+延續第 06 課的單變數例。在普通層 $h_{\rm out}=F(h)$，從上游傳回的梯度要乘 $F'(h)$。在殘差相加點 $h_{\rm out}=h+F(h)$，同一個梯度則乘：
+
+$$\frac{d h_{\rm out}}{d h}=1+F'(h).$$
+
+其中 1 來自原輸入直接走到相加點的路徑，$F'(h)$ 來自子層。反向傳播會將兩條路徑對輸入的貢獻相加。若上游梯度為 1 且 $F'(h)=0.01$，普通層向前一層傳回 0.01，殘差相加點傳回 1.01。若 $F'(h)=-1$，兩項在這一點會抵銷。這些數字是局部手算，說明旁路如何幫助傳遞梯度，也顯示效果取決於分支的導數。向量情況的對應式是 $I+J_F$，其中 $I$ 是恆等矩陣，$J_F$ 是子層對輸入的雅可比矩陣。
+
+原始 Transformer 使用 Post-LN，整個子層是 $\mathrm{LN}(h+F(h))$，反向傳播在抵達相加點前還要經過 LayerNorm。Pre-LN 寫成 $h+F(\mathrm{LN}(h))$，直接路徑仍把 $h$ 接到加總點。這也說明**殘差是改變梯度路徑的架構設計，反向傳播是沿那些路徑算梯度的方法**。[第 06 課：梯度消失與 Sigmoid](06-overfitting-generalization.md) · [ResNet 原論文](https://arxiv.org/abs/1512.03385) · [Transformer 原論文 §3.1](https://arxiv.org/html/1706.03762v7#S3.SS1) · [Pre-LN 與 Post-LN 研究](https://proceedings.mlr.press/v119/xiong20b.html)
+
 ## 自我檢核
 
 1. 分布 [0.5,0.5] 的熵是多少 bits？
