@@ -22,7 +22,7 @@
 | 06 | BN、LN 與 PowerNorm | [背景導讀](statistics-to-ai.md)已有統計軸比較與 RMS 手算，同一張量上的 BN／LN 前向實驗待補，PowerNorm 更新與反向列進階閱讀 | PowerNorm |
 | 07 | 迴歸殘差、機率輸出與損失 | [講義](units/05-statistical-models-loss.md)、Notebook 05 | T5、RAG |
 | 08 | Mini-batch 與隨機梯度 | [損失講義](units/05-statistical-models-loss.md)已有單筆梯度手算，批次平均與更新比較待補 | Chinchilla |
-| 09 | Dropout 與正則化 | [Notebook 06](../notebooks/06_overfitting_generalization.ipynb)已有正則化練習，Dropout 遮罩、縮放期望與訓練／推論差異待補 | 訓練基礎 |
+| 09 | Dropout 與正則化 | [第 06 課講義](units/06-overfitting-generalization.md)與 [Notebook 06](../notebooks/06_overfitting_generalization.ipynb)已有 L2 懲罰、Bernoulli 遮罩、期望縮放與訓練／推論練習 | 訓練基礎 |
 | 10 | 啟動函數、資料切分與泛化 | [講義](units/06-overfitting-generalization.md)、Notebook 03、06 | T5、ViT、Whisper |
 | 11 | 分類指標與決策 | Notebook 07 | Whisper、RAG；任務指標需延伸 |
 | 12 | 不確定性與公平比較 | Notebook 08、09 | 所有實驗型論文 |
