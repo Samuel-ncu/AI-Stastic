@@ -4,7 +4,21 @@
 
 ## 學習目標與先備知識
 
-收到缺陷警報後，現場要決定是否複檢。先把每種判定的結果計數，再從成本決定應優先看哪些指標。這一課使用同一批 1,000 件產品把三步接在一起。
+這一課使用同一批 1,000 件產品，練習從現場需求定義判定方式，再選擇合適的評估指標。
+
+### 先定用途，再設計閾值、規則和評估方式
+
+**閾值是依任務需求設計的。** 先決定系統要採取什麼行動、有哪些限制，再思考怎麼用模型輸出。常見做法如下：
+
+| 從哪裡著手？ | 怎麼用？ | 例子 |
+|---|---|---|
+| **從單筆分數定門檻** | 分數達到門檻就採取行動。門檻也可以來自現成規格。 | 瑕疵機率 42%，用 50% 門檻就放行，用 30% 就送複檢。若模型輸出的是延遲毫秒數，服務可依 12 ms 的規格決定何時警報。 |
+| **從任務設判定規則** | 依最高分、類別或額外條件決定單筆要做什麼。 | DLI 04b 直接選最高分的手語字母。DLI 05a 先選最高分的 ImageNet 類別，再依該類別是否屬犬種決定開門。 |
+| **用整批驗證選規則** | 試幾個候選門檻或規則，比較整批結果，再選符合現場目標的一個。 | 第 4 節的工廠每 1,000 件最多可複檢 30 件。在兩個候選門檻中，0.5 會送 28 件，符合容量；0.3 則會送 49 件。 |
+
+**整批要看什麼，也由任務決定。** 管理複檢量時直接數警報件數。有標註答案且重視漏判時，可以看 Recall 或漏判件數；在意送去複檢有多少是真的，可看 Precision；希望同時衡量這兩項，可看 F1。若任務主要看整體答對比例，就看 Accuracy。能估計漏判、誤報各自的代價時，也可以直接比較總成本。
+
+[DLI 04b 手語 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb) · [DLI 05a 狗門 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05a_doggy_door.ipynb)
 
 先讀第二課的條件機率。學完能自行列出混淆矩陣、手算指標，並依漏判及誤報成本選擇要關注的結果。
 
@@ -12,7 +26,7 @@
 
 1. **模型給分數。** 例如 DLI 手語模型會為每個字母給一個分數。
 2. **規則做出一筆判定。** 手語模型用最高分（argmax）選字母；寵物門也可以根據閾值決定開不開。
-3. **用標註答案評估整批判定。** 把每筆預測和實際答案比對，填出混淆矩陣，再算 Accuracy、Precision、Recall 或 F1（常見的 F-score）。Accuracy 看全部判對多少，Precision 看警報有多準，Recall 看真正要找的對象有多少被找到，F1 合併 Precision 和 Recall。
+3. **用標註答案評估整批判定。** 把每筆預測和實際答案比對，填出混淆矩陣，再按任務選擇要看的指標。
 
 以 DLI 05b 為例，某張圖觸發開門規則後，還要知道照片裡實際是誰。若真的是 Penny，這次開門就是正確放行；若是其他動物，就是誤開門。**開門規則回答這一次做什麼，指標回答這套規則用在很多張圖上表現如何。** [DLI 04b 手語 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb) · [DLI 05b 寵物門 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05b_corgi_door.ipynb)
 
