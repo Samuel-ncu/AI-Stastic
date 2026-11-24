@@ -6,12 +6,16 @@
 |---|---|---|
 | 00_jupyterlab.ipynb | Python 與圖表暖身 | 陣列、資料表、圖形判讀 |
 | 01_mnist.ipynb | 01、02、04、05 | 像素分布、尺度、分類、損失 |
-| 02_asl.ipynb | 03、05、06、09 | 資料切分、基準模型、訓練曲線 |
+| [02 手語影像分類](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/02_asl.ipynb) | 03、05、06、[09](units/09-experimental-design.md) | 建立手語分類基準，記錄資料切分、初始設定與驗證指標，供後面比較 CNN 或資料增強。 |
 | 03_asl_cnn.ipynb | 06、08 | 模型複雜度、公平比較 |
-| 04a_asl_augmentation.ipynb | 03、06、09 | 增強合理性、資料洩漏、控制變因 |
+| [04a 手語資料增強](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04a_asl_augmentation.ipynb) | 03、06、[09](units/09-experimental-design.md) | 用同一切分、模型及訓練預算，對照有無增強。用相同的一組訓練種子重跑兩組，比較驗證指標。 |
 | 04b_asl_predictions.ipynb | 02、07 | 分類輸出、錯誤分析、指標 |
 | 05a_doggy_door.ipynb | 07、08 | 閾值與決策成本 |
-| 05b_corgi_door.ipynb | 07、08、09 | 類別不平衡、比較與重現 |
-| 06_nlp.ipynb | 10 | 詞頻、熵與文字表示 |
+| [05b 寵物門與遷移學習](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05b_corgi_door.ipynb) | 07、08、[09](units/09-experimental-design.md) | 比較凍結基礎模型與解凍微調。記錄資料、解凍範圍、訓練設定及評估條件，再判讀改善幅度。 |
+| [06 自然語言處理](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/06_nlp.ipynb) | [10](units/10-text-statistics.md) | 把 DLI 的 BERT 分詞、遮罩詞預測和問答，接到 token 表示、候選詞機率與注意力。 |
+
+**第 09 課用來設計比較。** 例如做完 04a，可以用同一組種子比較有無資料增強的驗證結果。先固定評估方式與選擇規則，再用保留的測試集做最後評估。
+
+**第 10 課用來讀懂模型。** DLI 06 用 BERT 根據上下文補回被遮住的 token，也做從文本擷取答案的練習。第 10 課先用詞袋和熵建立直覺，再補上嵌入向量、Q、K、V 與殘差連接；GPT 的下一個 token 預測是延伸對照。
 
 單元編號與原教材章節編號各自獨立。原教材更新後需重新檢查對照。
