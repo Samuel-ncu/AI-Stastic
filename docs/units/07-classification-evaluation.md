@@ -8,6 +8,16 @@
 
 先讀第二課的條件機率。學完能自行列出混淆矩陣、手算指標，並依漏判及誤報成本選擇要關注的結果。
 
+### 最高分、閾值與評估指標各在哪一步？
+
+1. **模型給分數。** 例如 DLI 手語模型會為每個字母給一個分數。
+2. **規則做出一筆判定。** 手語模型用最高分（argmax）選字母；寵物門也可以根據閾值決定開不開。
+3. **用標註答案評估整批判定。** 把每筆預測和實際答案比對，填出混淆矩陣，再算 Accuracy、Precision、Recall 或 F1（常見的 F-score）。Accuracy 看全部判對多少，Precision 看警報有多準，Recall 看真正要找的對象有多少被找到，F1 合併 Precision 和 Recall。
+
+以 DLI 05b 為例，某張圖觸發開門規則後，還要知道照片裡實際是誰。若真的是 Penny，這次開門就是正確放行；若是其他動物，就是誤開門。**開門規則回答這一次做什麼，指標回答這套規則用在很多張圖上表現如何。** [DLI 04b 手語 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb) · [DLI 05b 寵物門 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05b_corgi_door.ipynb)
+
+在第 4 節，同一模型的閾值從 0.5 降到 0.3 後，Recall 提高，Accuracy、Precision 和 F1 卻下降。現場可以用驗證集的指標比較兩種決策，再依漏判與誤報的成本選規則。
+
 ## 1. 先定義正類，再計算
 
 **來源摘要 [S6](https://scikit-learn.org/stable/modules/model_evaluation.html)：**Precision 與 Recall 分別以「預測正類」和「實際正類」作為分母；F1 以調和平均彙整兩者。多類別的平均方式會改變整體指標的意義。
@@ -79,6 +89,7 @@ $$F_1=\frac{2PR}{P+R}=\frac{2TP}{2TP+FP+FN}=\frac{16}{38}\approx42.11\%$$
 | 誤報（FP） | 20 | 40 |
 | 正常放行（TN） | 970 | 950 |
 | 需複檢（TP＋FP） | 28 | 49 |
+| Accuracy | $(8+970)/1000=97.8\%$ | $(9+950)/1000=95.9\%$ |
 | Recall | $8/10=80\%$ | $9/10=90\%$ |
 | Precision | $8/28\approx28.57\%$ | $9/49\approx18.37\%$ |
 | F1 | $16/38\approx42.11\%$ | $18/59\approx30.51\%$ |
