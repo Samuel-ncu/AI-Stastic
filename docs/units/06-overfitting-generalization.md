@@ -46,9 +46,10 @@ $$\hat y=5+2x+3\,\mathrm{ReLU}(x-2).$$
 
 ### 看輸出範圍、斜率與用途
 
-![ReLU、Sigmoid、tanh 同軸比較，可見兩種有界曲線在兩側趨平](../figures/06-activations.svg)
+![五種啟動函數的曲線，含 ReLU、Leaky ReLU、GELU 的負值放大，以及 tanh 和 Sigmoid 的飽和區](../figures/06-activations.svg)
 
-從 $z=0$ 往右看，ReLU 每往右 1，輸出就增 1。Sigmoid 和 tanh 到右側逐漸變平，同一段輸入變化只帶來很小輸出變化。表格另外比較 Leaky ReLU、GELU 與恆等輸出。
+- **先看負值。** ReLU 對負輸入輸出 0，Leaky ReLU 保留 0.01 的斜率。GELU $z\Phi(z)$ 會平滑地讓部分負值通過，當 $z$ 往很負的方向走時，輸出又逐漸接近 0。中圖把負值區放大，方便看出這三種處理方式。
+- **再看正值與飽和。** 正值區的 ReLU 和 Leaky ReLU 都沿著 $a(z)=z$ 上升。tanh 的輸出介於 −1 和 1，Sigmoid 的輸出介於 0 和 1。越靠近兩端，曲線越平，局部斜率也越小。從 $z=0$ 比較，tanh 的輸出是 0，Sigmoid 則是 0.5。
 
 | 函數 | 形狀與梯度 | 選擇情境 |
 |---|---|---|
