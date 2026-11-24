@@ -17,6 +17,20 @@
 | 實驗設計與重現 | [Notebook](09_experimental_design.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/09_experimental_design.ipynb) |
 | 文字資料的統計 | [Notebook](10_text_statistics.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/10_text_statistics.ipynb) |
 
+## 張量、訓練與論文選修 Notebook
+
+左欄沿用[課綱的授課順序](../docs/syllabus.md)。先讀講義的手算，再用 Notebook 的圖表核對。
+
+| 單元 | 教材 | Colab |
+|---|---|---|
+| 04 張量與統計軸 | [講義](../docs/units/bridge-tensor-axes.md) · [Notebook](bridge_tensor_axes.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_tensor_axes.ipynb) |
+| 06 模型內正規化：BN、LN 與 PowerNorm | [講義](../docs/units/bridge-normalization-layers.md) · [Notebook](bridge_normalization_layers.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_normalization_layers.ipynb) |
+| 08 Mini-batch 與隨機梯度 | [講義](../docs/units/bridge-minibatch-gradients.md) · [Notebook](bridge_minibatch_gradients.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_minibatch_gradients.ipynb) |
+| E1 模型規模與計算配額 | [講義](../docs/units/e1-compute-scaling.md) · [Notebook](e1_compute_scaling.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e1_compute_scaling.ipynb) |
+| E2 弱監督與語音評估 | [講義](../docs/units/e2-weak-supervision-wer.md) · [Notebook](e2_weak_supervision_wer.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e2_weak_supervision_wer.ipynb) |
+| E3 檢索排序與機率融合 | [講義](../docs/units/e3-retrieval-probability.md) · [Notebook](e3_retrieval_probability.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e3_retrieval_probability.ipynb) |
+| E4 RAG 消融與來源評估 | [講義](../docs/units/e4-rag-ablation.md) · [Notebook](e4_rag_ablation.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e4_rag_ablation.ipynb) |
+
 ## 本機執行
 
 ```bash

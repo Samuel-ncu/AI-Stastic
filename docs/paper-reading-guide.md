@@ -160,14 +160,14 @@ Recall@k 是前 k 筆取回的相關項目數除以所有已標註相關項目�
 
 例如兩個查詢的首個相關結果在第 1、4 名，MRR=(1+1/4)/2=0.625。這是自編例，不是任何論文的實測結果。
 
-## 延伸教學模組（設計完成，尚無新增 Notebook）
+## 延伸教學模組與 CPU Notebook
 
-| 模組 | 內容 | 建議時間 |
-|---|---|---:|
-| E1 規模與計算 | 冪律、log-log 圖、參數／token 配置與外推限制 | 2 小時 |
-| E2 弱監督與語音評估 | 標籤雜訊、WER、語言／口音分層與公平比較 | 2 小時 |
-| E3 檢索與機率融合 | 相似度、邊際化、Recall@k、MRR、回答品質 | 2 小時 |
-| E4 RAG 實驗設計 | 消融、檢索與生成分開評估、延遲與來源核對 | 2 小時 |
+| 模組講義 | CPU 實作 | 內容 | 建議時間 |
+|---|---|---|---:|
+| [E1 規模與計算](units/e1-compute-scaling.md) | [Notebook](../notebooks/e1_compute_scaling.ipynb) | 冪律、log-log 圖、參數／token 配置與外推限制 | 2 小時 |
+| [E2 弱監督與語音評估](units/e2-weak-supervision-wer.md) | [Notebook](../notebooks/e2_weak_supervision_wer.ipynb) | 標籤雜訊、WER、語言／口音分層與公平比較 | 2 小時 |
+| [E3 檢索與機率融合](units/e3-retrieval-probability.md) | [Notebook](../notebooks/e3_retrieval_probability.ipynb) | 相似度、邊際化、Recall@k、MRR、回答品質 | 2 小時 |
+| [E4 RAG 實驗設計](units/e4-rag-ablation.md) | [Notebook](../notebooks/e4_rag_ablation.ipynb) | 消融、檢索與生成分開評估、延遲與來源核對 | 2 小時 |
 
 ## 論文作業繳交規格
 

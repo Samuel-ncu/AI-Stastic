@@ -14,3 +14,15 @@
 - [不確定性與模型比較](08-uncertainty-comparison.md)
 - [實驗設計與重現](09-experimental-design.md)
 - [文字資料的統計](10-text-statistics.md)
+
+## 張量、訓練與論文選修講義
+
+編號依[新版課綱](../syllabus.md)。
+
+- [04 張量與統計軸](bridge-tensor-axes.md)
+- [06 模型內正規化：BN、LN 與 PowerNorm](bridge-normalization-layers.md)
+- [08 Mini-batch 與隨機梯度](bridge-minibatch-gradients.md)
+- [E1 模型規模與計算配額](e1-compute-scaling.md)
+- [E2 弱監督與語音評估](e2-weak-supervision-wer.md)
+- [E3 檢索排序與機率融合](e3-retrieval-probability.md)
+- [E4 RAG 消融與來源評估](e4-rag-ablation.md)

@@ -18,6 +18,8 @@
 
 接著沿用同一套影像辨識服務，從前方請求數與資料量開始，追蹤一次模型設計。精讀時先讀圖的軸、對象與單位，再自行重算一筆，最後到 Notebook 改一個條件看結果如何變。
 
+若要往模型內部看，依序做 [張量與統計軸](units/bridge-tensor-axes.md)、[BN／LN 與 PowerNorm](units/bridge-normalization-layers.md) 和 [Mini-batch 與隨機梯度](units/bridge-minibatch-gradients.md) 的小實驗。想延伸到語音與 RAG，可以從 [任務指標](units/07-classification-evaluation.md) 接到 [E1–E4 論文選修](paper-reading-guide.md)。
+
 ## 1. 資料先換到可比較的尺度
 
 假設輸入有兩個特徵，前方請求數和請求資料量（KB）。前方多一筆和多 1 KB 的意義不同。若直接用數值算距離，僅把 KB 換成 bytes 就可能改變最近鄰，即使請求實際上完全相同。

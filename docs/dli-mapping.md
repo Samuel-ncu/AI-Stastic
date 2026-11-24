@@ -18,4 +18,6 @@
 
 **第 10 課用來讀懂模型。** DLI 06 用 BERT 根據上下文補回被遮住的 token，也做從文本擷取答案的練習。第 10 課先用詞袋和熵建立直覺，再補上嵌入向量、Q、K、V 與殘差連接；GPT 的下一個 token 預測是延伸對照。
 
+讀 DLI 02 手語分類時，可用 [張量與統計軸](units/bridge-tensor-axes.md) 辨認一批影像的各維度，再用 [Mini-batch 與隨機梯度](units/bridge-minibatch-gradients.md) 追蹤每批損失與更新。閱讀 DLI 06 的 BERT 時，可搭配 [模型內正規化](units/bridge-normalization-layers.md) 釐清 token 的特徵在哪一軸做 LayerNorm。
+
 單元編號與原教材章節編號各自獨立。原教材更新後需重新檢查對照。
