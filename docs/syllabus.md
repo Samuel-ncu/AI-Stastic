@@ -27,7 +27,7 @@
 | 11 | 分類指標與決策 | [分類模型評估](units/07-classification-evaluation.md) · [Notebook 07](../notebooks/07_classification_evaluation.ipynb)，含 WER、Recall@k 與 MRR | Whisper、RAG |
 | 12 | 不確定性與公平比較 | Notebook 08、09 | 所有實驗型論文 |
 | 13 | 文字統計、資訊量與 Transformer 殘差連接 | [講義](units/10-text-statistics.md)、Notebook 10 | T5、LLM-Embedder |
-| E1–E4 | 規模、弱監督、檢索與 RAG 評估 | [E1](units/e1-compute-scaling.md) · [E2](units/e2-weak-supervision-wer.md) · [E3](units/e3-retrieval-probability.md) · [E4](units/e4-rag-ablation.md)，各有圖解、手算和 CPU Notebook | 八篇論文整合 |
+| E1–E4 | 規模、弱監督、檢索與 RAG 評估 | [E1](units/e1-compute-scaling.md) · [E2](units/e2-weak-supervision-wer.md) · [E3](units/e3-retrieval-probability.md) · [E4](units/e4-rag-ablation.md)，附原文章節與表格對照、手算和 CPU Notebook | Chinchilla、Whisper、RAG、LLM-Embedder、RAG Survey |
 
 完整論文題名、原文、先備統計、練習及辨誤見 [論文閱讀導引](paper-reading-guide.md)。
 

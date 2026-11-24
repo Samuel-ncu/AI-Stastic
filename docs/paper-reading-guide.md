@@ -162,12 +162,14 @@ Recall@k 是前 k 筆取回的相關項目數除以所有已標註相關項目�
 
 ## 延伸教學模組與 CPU Notebook
 
+每課先讀指定論文章節與表，再做合成暖身和原文對照。Notebook 把論文表格讀值、依論文公式重算的數字，與自編實驗標清楚。
+
 | 模組講義 | CPU 實作 | 內容 | 建議時間 |
 |---|---|---|---:|
-| [E1 規模與計算](units/e1-compute-scaling.md) | [Notebook](../notebooks/e1_compute_scaling.ipynb) | 冪律、log-log 圖、參數／token 配置與外推限制 | 2 小時 |
-| [E2 弱監督與語音評估](units/e2-weak-supervision-wer.md) | [Notebook](../notebooks/e2_weak_supervision_wer.ipynb) | 標籤雜訊、WER、語言／口音分層與公平比較 | 2 小時 |
-| [E3 檢索與機率融合](units/e3-retrieval-probability.md) | [Notebook](../notebooks/e3_retrieval_probability.ipynb) | 相似度、邊際化、Recall@k、MRR、回答品質 | 2 小時 |
-| [E4 RAG 實驗設計](units/e4-rag-ablation.md) | [Notebook](../notebooks/e4_rag_ablation.ipynb) | 消融、檢索與生成分開評估、延遲與來源核對 | 2 小時 |
+| [E1 規模與計算](units/e1-compute-scaling.md) | [Notebook](../notebooks/e1_compute_scaling.ipynb) | Chinchilla §3 三種估計法、Table 2 算力比例、Table 6 的終點比較；接合成等算力曲線 | 2 小時 |
+| [E2 弱監督與語音評估](units/e2-weak-supervision-wer.md) | [Notebook](../notebooks/e2_weak_supervision_wer.ipynb) | Whisper §2.1 弱標註與 §3.2.1／Table 2 零樣本穩健性；逐資料集重算相對 WER | 2 小時 |
+| [E3 檢索與機率融合](units/e3-retrieval-probability.md) | [Notebook](../notebooks/e3_retrieval_probability.ipynb) | Lewis §2.1–2.2 的 DPR 與序列／token 邊際化；LLM-Embedder v2 的任務指令、蒸餾與同質負樣本 | 2 小時 |
+| [E4 RAG 實驗設計](units/e4-rag-ablation.md) | [Notebook](../notebooks/e4_rag_ablation.ipynb) | Lewis Table 6 的檢索消融、Survey §II-B 與 §VI 的重排與分項評估；固定候選池做 CPU 實驗 | 2 小時 |
 
 ## 論文作業繳交規格
 
