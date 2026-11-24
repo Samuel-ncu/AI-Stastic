@@ -8,13 +8,15 @@
 
 課程單元編號對應 [整合課程大綱](syllabus.md) 的「新版教學順序」，不是目前 Notebook 檔名。已完成 Notebook 與待補教材在課綱中分開標示。
 
-## 論文與統計背景總表
+## 八篇論文與統計背景總表
+
+P01–P08 是原論文清單。P01 PowerNorm、P02 T5、P03 ViT 搭配基礎單元。P04–P08 分布在四個選修模組中：E1 對應 Chinchilla，E2 對應 Whisper，E3 合讀 RAG 與 LLM-Embedder，E4 延續 RAG 原論文並搭配 RAG Survey。[八篇原論文與教材入口](../Papers.md)
 
 | 編號 | 論文 | 對應單元 | 需要的統計背景 |
 |---|---|---|---|
-| P01 | [PowerNorm: Rethinking Batch Normalization in Transformers](https://proceedings.mlr.press/v119/shen20e.html) | 06 BN／LN／PN | 二次動差、RMS、移動平均、批次統計波動 |
-| P02 | [Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer（T5）](https://www.jmlr.org/papers/v21/20-074.html) | 07 機率與損失、10 泛化、13 文字統計 | 條件機率、序列交叉熵、遷移學習、控制變因 |
-| P03 | [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale（ViT）](https://arxiv.org/abs/2010.11929v2) | 04 張量與統計軸、10 泛化 | 樣本量、歸納偏置、資料分布、遷移評估 |
+| P01 | [PowerNorm: Rethinking Batch Normalization in Transformers](https://proceedings.mlr.press/v119/shen20e.html) | [06 BN／LN／PN](units/bridge-normalization-layers.md) | 二次動差、RMS、移動平均、批次統計波動 |
+| P02 | [Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer（T5）](https://www.jmlr.org/papers/v21/20-074.html) | [07 機率與損失](units/05-statistical-models-loss.md)、[10 泛化](units/06-overfitting-generalization.md)、[13 文字統計](units/10-text-statistics.md) | 條件機率、序列交叉熵、遷移學習、控制變因 |
+| P03 | [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale（ViT）](https://arxiv.org/abs/2010.11929v2) | [04 張量與統計軸](units/bridge-tensor-axes.md)、[10 泛化](units/06-overfitting-generalization.md) | 樣本量、歸納偏置、資料分布、遷移評估 |
 | P04 | [Training Compute-Optimal Large Language Models（Chinchilla）](https://arxiv.org/abs/2203.15556) | 08 批次與訓練、12 模型比較；延伸 E1 | 冪律、對數座標、迴歸擬合、受限最佳化、外推限制 |
 | P05 | [Robust Speech Recognition via Large-Scale Weak Supervision（Whisper）](https://arxiv.org/abs/2212.04356) | 10 泛化、11 評估、12 不確定性；延伸 E2 | 弱監督、標籤雜訊、分布差異、分層評估、WER |
 | P06 | [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401v4) | 03 條件機率、07 損失、11 評估；延伸 E3 | 潛在變數、邊際化、條件機率、檢索與生成的分開評估 |
