@@ -10,7 +10,7 @@
 
 ## 八篇論文與統計背景總表
 
-P01–P08 是原論文清單。P01 PowerNorm、P02 T5、P03 ViT 搭配基礎單元。P04–P08 分布在四個選修模組中：E1 對應 Chinchilla，E2 對應 Whisper，E3 合讀 RAG 與 LLM-Embedder，E4 延續 RAG 原論文並搭配 RAG Survey。[八篇原論文與教材入口](../Papers.md)
+P01–P08 是原論文清單。P01 PowerNorm、P02 T5、P03 ViT 搭配基礎單元。P04–P08 分布在四個選修模組中：E1 對應 Chinchilla，E2 對應 Whisper，E3 合讀 RAG 與 LLM-Embedder，E4 延續 RAG 原論文並搭配 RAG Survey。[八篇原論文與教材入口](../Papers.md) · [重要名詞解釋](paper-glossary.md)
 
 | 編號 | 論文 | 對應單元 | 需要的統計背景 |
 |---|---|---|---|

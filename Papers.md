@@ -13,4 +13,4 @@
 | P07 | [LLM-Embedder v2](https://arxiv.org/abs/2310.07554v2) | [E3 檢索排序與機率融合](docs/units/e3-retrieval-probability.md) |
 | P08 | [RAG Survey v5](https://arxiv.org/abs/2312.10997v5) | [E4 RAG 消融與來源評估](docs/units/e4-rag-ablation.md) |
 
-[逐篇閱讀導引、練習與辨誤](docs/paper-reading-guide.md) · [整合課程順序](docs/syllabus.md)
+[逐篇閱讀導引、練習與辨誤](docs/paper-reading-guide.md) · [重要名詞解釋](docs/paper-glossary.md) · [整合課程順序](docs/syllabus.md)
