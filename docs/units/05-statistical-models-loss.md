@@ -229,6 +229,20 @@ Accuracy 可以報告決定是否答對。可微的訓練損失還能回答權�
 
 下方使用 scikit-learn 的 8×8 digits 建立輕量基準，**不是 MNIST**。連到 DLI 時，請比較輸入形狀、輸出類別數與損失函數，避免把本例的分數當作 DLI 模型結果。
 
+### 從 DLI 的輸出找到最後判定
+
+先找 Notebook 裡的模型輸出，再追它怎麼變成類別或動作。
+
+| DLI 實作 | 模型輸出 | 原 Notebook 的判定 |
+|---|---|---|
+| 04b 手語辨識 | 每個手語字母一個 logit | 取最大的分數所對應的字母（argmax）。Softmax 會保留同一排序，因此要選最高分時，可直接比較 logits。 |
+| 05a 狗門 | 預訓練 VGG16 對 ImageNet 各類別的分數 | 先取最高分的類別，再依類別索引決定是否開門。犬種類別用的是索引範圍，索引只用來識別類別。 |
+| 05b Penny 專用寵物門 | 一個二元 logit $z$ | 訓練用 BCEWithLogitsLoss。推論開門的條件是 $z<0$。 |
+
+05b 把 Penny 編為 0，`Not_Penny` 編為 1，故 Sigmoid $\sigma(z)$ 給的是 `Not_Penny` 的機率。因為 $\sigma(0)=0.5$，專用寵物門的 $z<0$ 等同於 $P(\mathrm{Penny})>0.5$；$z=0$ 時門保持關閉。教材前面的超時例把「超時」編成 1，所以看的是相反一側。**把哪個答案編成 1，決定了這個 logit 轉出的機率代表哪一類。**
+
+[04b 手語 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb) · [05a 狗門 Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05a_doggy_door.ipynb) · [05b Penny Notebook](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05b_corgi_door.ipynb)
+
 ### 補充｜模型怎麼從損失知道每個權重該往哪裡改？
 
 想像用 $\hat y=b+wx$ 預測延遲。若 $x=2$、$w=3$、$b=1$，模型預測 7 ms，實測 9 ms。殘差 $r=y-\hat y=2$ ms，單筆平方損失 $L=r^2=4$ ms²。

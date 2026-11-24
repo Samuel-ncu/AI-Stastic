@@ -101,6 +101,8 @@ $$F_1=\frac{2PR}{P+R}=\frac{2TP}{2TP+FP+FN}=\frac{16}{38}\approx42.11\%$$
 
 **註解｜訓練與分類決策。** BCE 依模型給實際類別的機率算損失。同一件真缺陷品的分數從 20% 升到 40%，BCE 會降低，雖然在 0.5 閾值下仍算漏判。到產生類別判定時，才套用閾值並計算混淆矩陣。[第 06 課：硬閾值與反向傳播](06-overfitting-generalization.md#註解遇到不可微的運算還能反向傳播嗎)
 
+**對照 DLI 05b 的預測與開門。** Notebook 將 Penny 標為 0，開門時直接檢查 logit $z<0$，相當於 $P(\mathrm{Penny})>50\%$。例如 $z=-0.4$ 時，Penny 的機率約為 59.9%，原規則會開門。若部署時另要求 Penny 的機率至少 80% 才開門，這筆就會保持關門。80% 是本課的延伸條件，應用有標註的驗證影像比較誤開門與拒絕 Penny 的次數；若要用 80% 解讀實際發生比例，還需要檢查校準。[DLI 05b：查看預測與 Penny 的寵物門](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05b_corgi_door.ipynb)
+
 這個流程也適用於手語辨識。先把分數轉成一個預測類別，再與真實類別比對。差別在於：缺陷檢測要決定「要不要警報」，手語辨識通常要決定「是哪一類」。
 
 ## 5. 延伸到 DLI 多類別手語
@@ -109,7 +111,7 @@ $$F_1=\frac{2PR}{P+R}=\frac{2TP}{2TP+FP+FN}=\frac{16}{38}\approx42.11\%$$
 
 假設每張手語影像只屬於一類，模型給 A、B、C 的機率為 40%、35%、25%。若任務要求每張都選一類，可以用**最高分規則（argmax）**判成 A。若應用允許請使用者重比，就可以另訂信心門檻。例如最高分未達 50% 時，系統要求重比。要評估這種系統，還要記錄有多少張被接受、多少張被要求重比。
 
-這一節把 A、B、C 當成互斥類別，所以可用一組 Softmax，再用最高分決定類別。若任務改成一張圖可以同時有多個標籤，就會改為每個標籤各用一個 Sigmoid，再各自套用閾值。[第 05 課：Sigmoid 與 Softmax 怎麼選？](05-statistical-models-loss.md#sigmoid-與-softmax-怎麼選)
+DLI 04b 的程式直接對模型輸出取最高分。對互斥類別而言，先用 Softmax 轉成機率也會選到同一類。前面的 50% 重比門檻是部署時可加上的規則。[DLI 04b：手語辨識](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb)若任務改成一張圖可以同時有多個標籤，就會改為每個標籤各用一個 Sigmoid，再各自套用閾值。[第 05 課：Sigmoid 與 Softmax 怎麼選？](05-statistical-models-loss.md#sigmoid-與-softmax-怎麼選)
 
 ### 從二元混淆矩陣讀到逐類指標
 
