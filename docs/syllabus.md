@@ -36,7 +36,7 @@
 1. 從期望值開始，再讀[張量與統計軸](units/bridge-tensor-axes.md)，先說清楚「哪個結果取期望」和「張量的哪些數值要一起算」。
 2. 用 [BN／LN](units/bridge-normalization-layers.md) 追一筆資料如何依統計範圍得到不同輸出，再讀 [mini-batch](units/bridge-minibatch-gradients.md)，確認每批怎麼算梯度與更新。第 06 課的 Dropout 延用伯努利遮罩與期望。
 3. E1 接在 mini-batch 後理解訓練配額。E2 接在任務評估後練習 WER。E3 先做檢索排序和機率融合，E4 再把檢索、答案、引用與延遲放在同一個實驗。
-4. 進入 DLI 手語 CNN 前，可讀 [CNN 補充講義](cnn-convolution-feature-maps.md)。用兩層卷積手算通道、局部連接與權重更新，再延伸到 U-Net 的影像分割。
+4. 進入 DLI 手語 CNN 前，可讀 [CNN 補充講義](cnn-convolution-feature-maps.md)。用兩層卷積手算通道、局部連接與權重更新，再延伸到 U-Net 的影像分割。 接著可用 [U-Net 實作講義](unet-segmentation-training.md)練習逐像素分割與模型訓練。
 
 每個新增 Notebook 先以合成資料核對手算，再改一個條件看圖表如何變化。與 DLI 實作的關係可查 [DLI 對照](dli-mapping.md)。
 
