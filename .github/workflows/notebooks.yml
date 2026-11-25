@@ -23,6 +23,8 @@ jobs:
           python-version: '3.11'
           cache: pip
       - run: pip install -r requirements.txt
+      - name: Install CPU PyTorch for the financial time-series lab
+        run: python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.5,<3'
       - run: python scripts/validate_notebooks.py
       - uses: actions/upload-artifact@v4
         with:

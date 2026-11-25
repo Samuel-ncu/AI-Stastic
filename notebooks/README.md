@@ -1,6 +1,6 @@
 # 統計教學 Notebook
 
-每份均包含概念說明、可執行 Python 範例、解讀及學生練習。使用 CPU，資料為合成或 scikit-learn 內建資料，無須下載 DLI 資料集。
+每份均包含概念說明、可執行 Python 範例、解讀及學生練習。使用 CPU，預設資料為合成或 scikit-learn 內建資料，無須下載 DLI 資料集。
 
 在 GitHub 點選檔案可閱讀；點選 Colab 可執行。安裝儲存格需要網路。Python 執行驗證狀態請查看儲存庫 Actions。
 
@@ -26,6 +26,7 @@
 | 04 張量與統計軸 | [講義](../docs/units/bridge-tensor-axes.md) · [Notebook](bridge_tensor_axes.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_tensor_axes.ipynb) |
 | 06 模型內正規化：BN、LN 與 PowerNorm | [講義](../docs/units/bridge-normalization-layers.md) · [Notebook](bridge_normalization_layers.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_normalization_layers.ipynb) |
 | 08 Mini-batch 與隨機梯度 | [講義](../docs/units/bridge-minibatch-gradients.md) · [Notebook](bridge_minibatch_gradients.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/bridge_minibatch_gradients.ipynb) |
+| 13 財經時序 Transformer | [講義](../docs/financial-time-series-transformer.md) · [Notebook](financial_time_series_transformer.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/financial_time_series_transformer.ipynb) |
 | E1 模型規模與計算配額 | [講義](../docs/units/e1-compute-scaling.md) · [Notebook](e1_compute_scaling.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e1_compute_scaling.ipynb) |
 | E2 弱監督與語音評估 | [講義](../docs/units/e2-weak-supervision-wer.md) · [Notebook](e2_weak_supervision_wer.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e2_weak_supervision_wer.ipynb) |
 | E3 檢索排序與機率融合 | [講義](../docs/units/e3-retrieval-probability.md) · [Notebook](e3_retrieval_probability.ipynb) | [開啟](https://colab.research.google.com/github/Samuel-ncu/AI-Stastic/blob/main/notebooks/e3_retrieval_probability.ipynb) |

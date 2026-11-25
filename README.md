@@ -33,7 +33,7 @@
 
 ## 立即開始
 
-已提供 [17 份統計教學 Notebook 與 Colab 入口](notebooks/README.md)，包括十份入門實驗和七份張量、訓練與論文選修實驗。每份都有概念、Python 範例、結果解讀與練習，使用合成或內建資料，在 CPU 執行。
+已提供 [18 份統計教學 Notebook 與 Colab 入口](notebooks/README.md)，包括十份入門實驗和八份張量、訓練與論文選修實驗。每份都有概念、Python 範例、結果解讀與練習，使用合成或內建資料，在 CPU 執行。
 
 [查看執行驗證](https://github.com/Samuel-ncu/AI-Stastic/actions/workflows/notebooks.yml)。CI 會在全新 Python 環境執行全部 Notebook；執行完成的版本可從 Actions artifacts 下載。
 
@@ -46,7 +46,7 @@
 | docs/ | 課綱、章節對照及單元教材綱要 |
 | exercises/ | 學生實驗與作業 |
 | instructor/ | 教學提示與評分規準；目前公開，不放需保密解答 |
-| notebooks/ | 17 份統計教學 Notebook 與 Colab 入口 |
+| notebooks/ | 18 份統計教學 Notebook 與 Colab 入口 |
 | src/ | 待開發共用程式的規格 |
 | data/ | 資料來源及下載規範 |
 

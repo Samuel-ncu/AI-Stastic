@@ -70,3 +70,7 @@ def show_generation():
 ### 如何連回 NVIDIA DLI？
 
 DLI 06 的 BERT 練習是填入句中被遮住的 token，這篇的 GPT 則用左側前文猜下一個字元。學生可拿同一句話比較「哪些位置看得到哪些字」和「答案放在哪一格」，再回來看兩個任務如何用輸出分數選 token。[第 10 課的 DLI 說明](units/10-text-statistics.md) · [DLI 對照表](dli-mapping.md)
+
+## 延伸實作｜換成財經時序資料
+
+把字元換成交易日，把下一個字元的分類換成下一交易日報酬率的迴歸。下一篇會建立視窗、依時間切分資料，並用同一段測試期比較 Transformer 與零報酬基準。[財經時序實作](financial-time-series-transformer.md)
