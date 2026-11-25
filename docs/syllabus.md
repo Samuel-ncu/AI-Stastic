@@ -26,7 +26,7 @@
 | 10 | 啟動函數、資料切分與泛化 | [講義](units/06-overfitting-generalization.md)、Notebook 03、06 | T5、ViT、Whisper |
 | 11 | 分類指標與決策 | [分類模型評估](units/07-classification-evaluation.md) · [Notebook 07](../notebooks/07_classification_evaluation.ipynb)，含 WER、Recall@k 與 MRR | Whisper、RAG |
 | 12 | 不確定性與公平比較 | Notebook 08、09 | 所有實驗型論文 |
-| 13 | 文字統計、資訊量與 Transformer 殘差連接 | [講義](units/10-text-statistics.md)、Notebook 10 | T5、LLM-Embedder |
+| 13 | 文字統計、資訊量與 Transformer 殘差連接 | [講義](units/10-text-statistics.md) · Notebook 10 · [從零訓練 Transformer 實作](transformer-training-lab.md) | T5、LLM-Embedder |
 | E1–E4 | 規模、弱監督、檢索與 RAG 評估 | [E1](units/e1-compute-scaling.md) · [E2](units/e2-weak-supervision-wer.md) · [E3](units/e3-retrieval-probability.md) · [E4](units/e4-rag-ablation.md)，附原文章節與表格對照、手算和 CPU Notebook | Chinchilla、Whisper、RAG、LLM-Embedder、RAG Survey |
 
 整門課有八篇論文。PowerNorm、T5、ViT 搭配主課閱讀；Chinchilla、Whisper、RAG、LLM-Embedder 和 RAG Survey 放在 E1–E4 四個選修模組，其中 RAG 原論文同時用於 E3 與 E4。[八篇論文入口](../Papers.md) · [論文閱讀導引](paper-reading-guide.md) · [重要名詞解釋](paper-glossary.md)
