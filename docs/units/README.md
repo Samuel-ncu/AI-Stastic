@@ -22,6 +22,7 @@
 - [04 張量與統計軸](bridge-tensor-axes.md)
 - [06 模型內正規化：BN、LN 與 PowerNorm](bridge-normalization-layers.md)
 - [08 Mini-batch 與隨機梯度](bridge-minibatch-gradients.md)
+- [CNN 補充｜從卷積核算到特徵圖、反向傳播與 U-Net](../cnn-convolution-feature-maps.md)
 - [E1 模型規模與計算配額](e1-compute-scaling.md)
 - [E2 弱監督與語音評估](e2-weak-supervision-wer.md)
 - [E3 檢索排序與機率融合](e3-retrieval-probability.md)

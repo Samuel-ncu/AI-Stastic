@@ -7,7 +7,7 @@
 | 00_jupyterlab.ipynb | Python 與圖表暖身 | 陣列、資料表、圖形判讀 |
 | 01_mnist.ipynb | 01、02、04、05 | 像素分布、尺度、分類、損失 |
 | [02 手語影像分類](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/02_asl.ipynb) | 03、05、06、[09](units/09-experimental-design.md) | 建立手語分類基準，記錄資料切分、初始設定與驗證指標，供後面比較 CNN 或資料增強。 |
-| 03_asl_cnn.ipynb | 06、08 | 模型複雜度、公平比較 |
+| 03_asl_cnn.ipynb | 06、08、[CNN 補充講義](cnn-convolution-feature-maps.md) | 先追蹤各層輸入與輸出通道，再比較模型複雜度與評估條件。 |
 | [04a 手語資料增強](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04a_asl_augmentation.ipynb) | 03、06、[09](units/09-experimental-design.md) | 用同一切分、模型及訓練預算，對照有無增強。用相同的一組訓練種子重跑兩組，比較驗證指標。 |
 | [04b 手語推論](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/04b_asl_predictions.ipynb) | 02、07 | 用 argmax 把 logits 轉為字母判定，再逐類讀混淆矩陣。 |
 | [05a 使用預訓練模型開狗門](https://github.com/NVDLI/fundamentals-of-deep-learning-zh/blob/main/course_content/tutorials/05a_doggy_door.ipynb) | 07、08 | 先選最高分 ImageNet 類別，再依類別索引判斷是否開門。 |
